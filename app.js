@@ -2,13 +2,14 @@ const express = require('express');
 const app = express()
 const bodyParser = require('body-parser');
 const Connection = require('./connector/connection');
+const { Routes } = require('./routes/index.js');
 require("dotenv").config();
-
-console.log(process.env)
 
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use('/api/', Routes());
 
 try{
     Connection.connectMongoose();

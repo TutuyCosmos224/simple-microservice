@@ -1,4 +1,4 @@
-import userService from '../service/service.js';
+const userService = require('../service/service.js');
 
 const postUser = async (req, res, next) => {
   // eslint-disable-next-line object-curly-newline
@@ -82,7 +82,7 @@ const deleteUser = async (req, res, next) => {
 
 
 // eslint-disable-next-line object-curly-newline
-export default {
+module.exports = {
   postUser,
   getUsers,
   getById,

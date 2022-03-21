@@ -1,6 +1,6 @@
-import userModel from '../models/userModel.js';
+const userModel = require('../models/userModel.js');
 
-import utils from '../utils/mongodb.js';
+const utils = require('../utils/utils.js');
 
 class UserRepository {
   constructor(model) {
@@ -69,4 +69,5 @@ class UserRepository {
   }
 }
 
-export default new UserRepository(userModel);
+const newRepo = new UserRepository(userModel)
+module.exports = {newRepo} ;
