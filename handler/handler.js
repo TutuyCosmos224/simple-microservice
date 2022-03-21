@@ -1,12 +1,16 @@
 const userService = require('../service/service.js');
 
+const wow = async (req, res, next) =>{
+    res.send("wow");
+}
+
+
 const postUser = async (req, res, next) => {
   // eslint-disable-next-line object-curly-newline
   const user = req.body;
   try {
     const newUser = await userService.createUser(user);
     res.status(201).json({ success: true, message: 'success', data: newUser });
-    console.log('user posted');
   } catch (err) {
     if (err instanceof Error) {
       res.status(400).json({ success: false, message: err.message, data: [] });
@@ -83,6 +87,7 @@ const deleteUser = async (req, res, next) => {
 
 // eslint-disable-next-line object-curly-newline
 module.exports = {
+    wow,
   postUser,
   getUsers,
   getById,

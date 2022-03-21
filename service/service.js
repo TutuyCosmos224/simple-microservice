@@ -14,13 +14,12 @@ const UserRepository = require('../repository/repository.js');
       }
   
       const hashedPassword = await utils.hashPassword(user.password);
-      
       const newUser = {
 		"name" : user.name,
 		"username" : user.username,
 		"password" : hashedPassword,
 		"gender" : user.gender,
-		"address" : user.address
+		"address" : user.address,
 	}
 
       return await UserRepository.create(newUser);
