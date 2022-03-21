@@ -1,33 +1,17 @@
-const express = require ("express");
-const app = express();
-const service = require("../service/index.js");
+import express from 'express';
 
+import handler from '../Handler/userHandler.js';
 
+const userRoutes = () => {
+  const router = express.Router();
 
-app.get('/', (req,res) => {
-    res.send("woi ajg")
-})
+  router.post('/', handler.postUser);
+  router.get('/', handler.getUsers);
+  router.get('/:userId', handler.getById);
+  router.put('/:userId', handler.updateUser);
+  router.delete('/:userId', handler.deleteUser);
 
-app.listen(4000, () =>{
-    console.log("running application")
-})
+  return router;
+};
 
-app.get('/users', service.getAll ,async(req,res)=>{
-    res.send("users shown..");
-})
-
-app.get('/users/:uid', service.getById, async(req,res)=>{
-    res.send("user found..");
-})
-
-app.post('/user', service.insertUser, async(req,res)=>{
-    res.send("users inserted test..");
-})
-
-app.delete('/users/:uid',service.deleteUser, async (req,res)=>{
-    res.send("users deleted test..");
-})
-
-app.post('/updateUser/:uid', service.updateUser, async(req,res)=>{
-    res.send("users updated test..");
-})
+export default userRoutes;

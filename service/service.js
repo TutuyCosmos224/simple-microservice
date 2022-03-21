@@ -1,96 +1,107 @@
-const mongoose = require('mongoose')
-const schema = require('../repository/schema.js')
-const express = require('express');
-const app = express()
-const bodyParser = require('body-parser');
-const axios = require('axios');
+import { validateUser, hashPassword } from '../utils/user.js';
+import UserRepository from '../repository/repository.js';
 
-const Connection = require('../connector/connection');
-const User = Connection.User;
-
-app.use(bodyParser.urlencoded({extended: true})); 
-app.use(bodyParser.json()); 
-
-async function initialLoad() {
-	await Connection.connectMongoose();
-}
-
-initialLoad()
-
-//GET all users
-const getAll =  function (req,res,next){
-    User.find().then((users) =>{
-        res.send(users)
-    }).catch((err) => {
-        if (err){
-            throw err
-        }
-    })
-	next()
-}
-
-//GET by ID
-const getById = function(req,res,next){
-	User.findById(req.params.uid).then((user) => {
-		if(user){
-			res.json(user)
-		} else {
-			res.sendStatus(404)
-		}
-	}).catch( err => {
-		if(err) {
-			throw err
-		}
-	})
-	next()
-}
-
-const createUser = function (req,res,next){
-	const newUser = {
-		"name" : req.body.name,
-		"username" : req.body.username,
-		"password" : req.body.password,
-		"gender" : req.body.gender,
-		"address" : req.body.address
+/**
+ *
+ * @param {Object} user
+ * @returns {Object} new user
+ */
+ const createUser = async (user) => {
+    try {
+      const { error } = validateUser(user);
+      if (error) {
+        throw new Error(error.details.map((err) => err.message));
+      }
+  
+      const hashedPassword = await hashPassword(user.password);
+      
+      const newUser = {
+		"name" : user.name,
+		"username" : user.username,
+		"password" : hashedPassword(user.password),
+		"gender" : user.gender,
+		"address" : user.address
 	}
-	const user = new User(newUser)
-	user.save().then((r) =>{
-		res.send("User created..")
-	}).catch((err)=>{
-		if (err){
-			throw err
-		}
-	})
-}
 
-const deleteUser = function(req,res,next){
-	User.findByIdAndDelete(req.params.uid).then(()=>{
-		res.send("User deleted..")
-	}).catch(()=>{
-		res.sendStatus(404)
-	})
-	next()
-}
+      return await UserRepository.create(newUser);
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
+  
+  /**
+   *
+   * @returns all users data
+   */
+  const getAllUsers = () => {
+    try {
+      return UserRepository.getAll();
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
+  
+  /**
+   *
+   * @param {String} id user id
+   * @returns {Object} user data
+   */
+  const getUserById = async (id) => {
+    try {
+      return await UserRepository.getById(id);
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
+  
+  /**
+   *
+   * @param {String} id user id
+   * @param {Object} user
+   * @returns {Object} updated user data
+   */
+  const updateUser = async (id, user) => {
+    const { error } = validateUser(user);
+    if (error) {
+      throw new Error(error.details.map((err) => err.message));
+    }
+    try {
+      const hashedPassword = await hashPassword(user.password);
 
-const updateUser = function(req,res,next){
-	const updateUser = {
-		"name" : req.body.name,
-		"username" : req.body.username,
-		"password" : req.body.password,
-		"gender" : req.body.gender,
-		"address" : req.body.address,
-		"modifyDate" : Date.now()
+      const userUpdate = {
+		"name" : user.name,
+		"username" : user.username,
+		"password" : hashedPassword(user.password),
+		"gender" : user.gender,
+		"address" : user.address,
 	}
-	User.findOneAndUpdate({_id:req.params.uid},updateUser).then(() =>{
-		res.send("User updated..")
-	}).catch((err)=>{
-		if (err){
-			throw err
-		}
-	})
-	next()
-}
-module.exports = {initialLoad, getAll, getById, createUser, deleteUser, updateUser}
 
-
-
+      const updatedUser = await UserRepository.updateById(id, userUpdate);
+      console.log('updatedUser: ', updatedUser);
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
+  
+  /**
+   *
+   * @param {String} id user id
+   * @returns {Object} user data
+   */
+  const deleteUser = async (id) => {
+    try {
+      return await UserRepository.deleteById(id);
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
+  
+  
+  // eslint-disable-next-line object-curly-newline
+  export default {
+    createUser,
+    getAllUsers,
+    getUserById,
+    updateUser,
+    deleteUser,
+  };
