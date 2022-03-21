@@ -45,7 +45,7 @@ const getById = function(req,res,next){
 	next()
 }
 
-const insertUser = function (req,res,next){
+const createUser = function (req,res,next){
 	const newUser = {
 		"name" : req.body.name,
 		"username" : req.body.username,
@@ -90,7 +90,7 @@ const updateUser = function(req,res,next){
 	})
 	next()
 }
-module.exports = {initialLoad, getAll, getById, insertUser, deleteUser, updateUser}
+module.exports = {initialLoad, getAll, getById, createUser, deleteUser, updateUser}
 
 
 
