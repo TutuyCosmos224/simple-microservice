@@ -1,15 +1,18 @@
-import { connectMongoose } from "./connector/connection";
-import config from "./config/config";
-import express, { json, urlencoded } from 'express';
+const express = require('express');
+const app = express()
+const bodyParser = require('body-parser');
+const Connection = require('./connector/connection');
+require("dotenv").config();
 
-const app = express();
+console.log(process.env)
 
-app.use(json());
-app.use(urlencoded({ extended: false }));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 try{
-    connectMongoose();
-    app.listen(config.app.port, ()=>{
+    Connection.connectMongoose();
+    app.listen(process.env.PORT, ()=>{
         console.log("application running...");
     })
 } catch (err){
