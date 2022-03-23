@@ -85,9 +85,8 @@ const deleteUser = async (req, res, next) => {
 };
 
 
-// eslint-disable-next-line object-curly-newline
 export default {
-    wow,
+  wow,
   postUser,
   getUsers,
   getById,

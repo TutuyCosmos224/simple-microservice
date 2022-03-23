@@ -56,4 +56,4 @@ const verifyPassword = async (password, hash) => {
 
 const toObjectId= (id) => mongoose.Types.ObjectId(id);
 
-export default { validateUser, hashPassword, verifyPassword, toObjectId };
+export default { validateUser, hashPassword, verifyPassword, toObjectId, };
