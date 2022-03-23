@@ -1,6 +1,5 @@
-const utils = require('../utils/utils.js');
-const UserRepository = require('../repository/repository.js');
-
+import utils from '../utils/utils.js';
+import UserRepository from '../repository/repository.js';
 /**
  *
  * @param {Object} user
@@ -21,7 +20,6 @@ const UserRepository = require('../repository/repository.js');
 		"gender" : user.gender,
 		"address" : user.address,
 	}
-
       return await UserRepository.create(newUser);
     } catch (err) {
       throw new Error(err.message);
@@ -96,7 +94,7 @@ const UserRepository = require('../repository/repository.js');
   
   
   // eslint-disable-next-line object-curly-newline
-  module.exports = {
+  export default {
     createUser,
     getAllUsers,
     getUserById,

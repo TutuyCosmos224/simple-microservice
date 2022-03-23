@@ -1,6 +1,6 @@
-const Joi = require('joi');
-const crypto = require('crypto');
-const mongoose = require('mongoose');
+import Joi from 'joi';
+import crypto from 'crypto';
+import mongoose from 'mongoose';
 
 /**
  *
@@ -56,4 +56,4 @@ const verifyPassword = async (password, hash) => {
 
 const toObjectId= (id) => mongoose.Types.ObjectId(id);
 
-module.exports = { validateUser, hashPassword, verifyPassword, toObjectId };
+export default { validateUser, hashPassword, verifyPassword, toObjectId };

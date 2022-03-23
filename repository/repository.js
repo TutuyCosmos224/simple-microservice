@@ -1,6 +1,5 @@
-const userModel = require('../models/userModel.js');
-
-const utils = require('../utils/utils.js');
+import utils from '../utils/utils.js';
+import userModel from '../models/userModel.js';
 
 class UserRepository {
   constructor(model) {
@@ -69,5 +68,4 @@ class UserRepository {
   }
 }
 
-const newRepo = new UserRepository(userModel)
-module.exports = {newRepo} ;
+export default new UserRepository(userModel);

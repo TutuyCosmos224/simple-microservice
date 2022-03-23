@@ -1,5 +1,6 @@
-const mongoose = require("mongoose");
-require("dotenv").config();
+import mongoose from "mongoose";
+import dotenv from 'dotenv';
+dotenv.config();
 
 async function connectMongoose() {
 	await mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology:true }).then(() =>{
@@ -7,4 +8,4 @@ async function connectMongoose() {
 	})
 }
 
-module.exports = {connectMongoose};
+export default connectMongoose;
