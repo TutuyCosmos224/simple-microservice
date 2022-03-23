@@ -1,6 +1,6 @@
 const utils = require('../utils/utils.js');
 const UserRepository = require('../repository/repository.js');
-const userModel = require('../models/userModel.js')
+const userModel = require('../models/userModel.js');
 const userRepo = new UserRepository(userModel);
 
 /**
@@ -90,7 +90,7 @@ const userRepo = new UserRepository(userModel);
    */
   const deleteUser = async (id) => {
     try {
-      return await userRepo.deleteById(id);
+      return await Use.deleteById(id);
     } catch (err) {
       throw new Error(err.message);
     }

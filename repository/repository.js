@@ -4,7 +4,7 @@ const utils = require('../utils/utils.js');
 
 module.exports = class UserRepository {
   constructor(model) {
-    const user_model = mongoose.model('userModel', model)
+    const user_model = mongoose.model('userModel', model);
     this.model = user_model;
   }
 
