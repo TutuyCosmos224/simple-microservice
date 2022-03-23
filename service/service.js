@@ -1,7 +1,7 @@
 const utils = require('../utils/utils.js');
 const UserRepository = require('../repository/repository.js');
 const userModel = require('../models/userModel.js');
-const userRepo = new UserRepository(userModel);
+const userRepo = new UserRepository(userModel.userSchema);
 
 /**
  *
@@ -17,11 +17,11 @@ const userRepo = new UserRepository(userModel);
   
       const hashedPassword = await utils.hashPassword(user.password);
       const newUser = {
-		"name" : user.name,
-		"username" : user.username,
-		"password" : hashedPassword,
-		"gender" : user.gender,
-		"address" : user.address,
+		    name : user.name,
+		    username : user.username,
+		    password : hashedPassword,
+		    gender : user.gender,
+		    address : user.address,
 	}
 
       return await userRepo.create(newUser);
@@ -70,14 +70,14 @@ const userRepo = new UserRepository(userModel);
       const hashedPassword = await utils.hashPassword(user.password);
 
       const userUpdate = {
-		"name" : user.name,
-		"username" : user.username,
-		"password" : hashedPassword,
-		"gender" : user.gender,
-		"address" : user.address,
+	    	name : user.name,
+		    username : user.username,
+		    password : hashedPassword,
+		    gender : user.gender,
+		    address : user.address,
 	}
 
-      const updatedUser = await userRepo.updateById(id, userUpdate);
+      const updatedUser = await userRepo.updateUser(id, userUpdate);
     } catch (err) {
       throw new Error(err.message);
     }

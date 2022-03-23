@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const models = require ('../models/userModel')
 
 const utils = require('../utils/utils.js');
 
