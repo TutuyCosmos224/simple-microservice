@@ -1,6 +1,6 @@
-import express from 'express';
+const express = require('express');
 
-import handler from '../handler/handler.js';
+const handler = require('../handler/handler.js');
 
 const userRoutes = () => {
   const router = express.Router();
@@ -15,4 +15,4 @@ const userRoutes = () => {
   return router;
 };
 
-export default userRoutes;
+module.exports = {userRoutes};

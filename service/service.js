@@ -1,5 +1,8 @@
-import utils from '../utils/utils.js';
-import UserRepository from '../repository/repository.js';
+const utils = require('../utils/utils.js');
+const UserRepository = require('../repository/repository.js');
+const userModel = require('../models/userModel.js')
+const userRepo = new UserRepository(userModel);
+
 /**
  *
  * @param {Object} user
@@ -20,7 +23,8 @@ import UserRepository from '../repository/repository.js';
 		"gender" : user.gender,
 		"address" : user.address,
 	}
-      return await UserRepository.create(newUser);
+
+      return await userRepo.create(newUser);
     } catch (err) {
       throw new Error(err.message);
     }
@@ -32,7 +36,7 @@ import UserRepository from '../repository/repository.js';
    */
   const getAllUsers = () => {
     try {
-      return UserRepository.getAll();
+      return userRepo.getAll();
     } catch (err) {
       throw new Error(err.message);
     }
@@ -45,7 +49,7 @@ import UserRepository from '../repository/repository.js';
    */
   const getUserById = async (id) => {
     try {
-      return await UserRepository.getById(id);
+      return await userRepo.getById(id);
     } catch (err) {
       throw new Error(err.message);
     }
@@ -73,7 +77,7 @@ import UserRepository from '../repository/repository.js';
 		"address" : user.address,
 	}
 
-      const updatedUser = await UserRepository.updateById(id, userUpdate);
+      const updatedUser = await userRepo.updateById(id, userUpdate);
     } catch (err) {
       throw new Error(err.message);
     }
@@ -86,7 +90,7 @@ import UserRepository from '../repository/repository.js';
    */
   const deleteUser = async (id) => {
     try {
-      return await UserRepository.deleteById(id);
+      return await userRepo.deleteById(id);
     } catch (err) {
       throw new Error(err.message);
     }
@@ -94,7 +98,7 @@ import UserRepository from '../repository/repository.js';
   
   
   // eslint-disable-next-line object-curly-newline
-  export default {
+  module.exports = {
     createUser,
     getAllUsers,
     getUserById,

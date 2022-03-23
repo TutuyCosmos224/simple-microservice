@@ -1,4 +1,4 @@
-import userService from '../service/service.js';
+const userService = require('../service/service.js');
 
 const wow = async (req, res, next) =>{
     res.send("wow");
@@ -22,7 +22,7 @@ const postUser = async (req, res, next) => {
 
 const getUsers = async (req, res, next) => {
   try {
-    const users = await userService.getAll();
+    const users = await userService.getAllUsers();
 
     res.status(200).json({ success: true, message: 'success', data: users });
     console.log('users gotten');
@@ -85,8 +85,9 @@ const deleteUser = async (req, res, next) => {
 };
 
 
-export default {
-  wow,
+// eslint-disable-next-line object-curly-newline
+module.exports = {
+    wow,
   postUser,
   getUsers,
   getById,

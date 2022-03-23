@@ -1,19 +1,18 @@
-import express from 'express';
-const app = express();
-import bodyParser from 'body-parser';
-import Connection from './connector/connection.js';
-import Routes  from './routes/index.js';
-import dotenv from 'dotenv';
-dotenv.config();
+const express = require('express');
+const app = express()
+const bodyParser = require('body-parser');
+const Connection = require('./connector/connection');
+const Routes  = require('./routes/index.js');
+require("dotenv").config();
 
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/api/', Routes);
+app.use('/api/', Routes.Routes());
 
 try{
-    Connection();
+    Connection.connectMongoose();
     app.listen(process.env.PORT, ()=>{
         console.log("application running...");
     })

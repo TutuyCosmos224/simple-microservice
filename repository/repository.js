@@ -1,9 +1,11 @@
-import utils from '../utils/utils.js';
-import userModel from '../models/userModel.js';
+const mongoose = require('mongoose');
 
-class UserRepository {
+const utils = require('../utils/utils.js');
+
+module.exports = class UserRepository {
   constructor(model) {
-    this.model = model;
+    const user_model = mongoose.model('userModel', model)
+    this.model = user_model;
   }
 
   /**
@@ -60,12 +62,10 @@ class UserRepository {
    * @param {String} id user id
    * @returns {Object} user data
    */
-  async deleteUser(id) {
+  async deleteById(id) {
     const userId = utils.toObjectId(id);
     const isExist = await this.model.exists({ _id: userId });
     if (!isExist) throw new Error('User Not Found!');
     return this.model.findByIdAndDelete(userId);
   }
-}
-
-export default new UserRepository(userModel);
+} ;
