@@ -1,8 +1,8 @@
 const utils = require('../utils/utils.js');
 const UserRepository = require('../repository/repository.js');
 const userModel = require('../models/userModel.js');
+const producer = require('./kafkaProducer.js');
 const userRepo = new UserRepository(userModel.userSchema);
-
 /**
  *
  * @param {Object} user
@@ -24,7 +24,9 @@ const userRepo = new UserRepository(userModel.userSchema);
 		    address : user.address,
 	}
 
-      return await userRepo.create(newUser);
+      producer.kafkaProduce.sendMessage('INSERT', newUser);
+      console.log("success insert");
+      // return await userRepo.create(newUser);
     } catch (err) {
       throw new Error(err.message);
     }
@@ -76,8 +78,9 @@ const userRepo = new UserRepository(userModel.userSchema);
 		    gender : user.gender,
 		    address : user.address,
 	}
-
-      const updatedUser = await userRepo.updateUser(id, userUpdate);
+      producer.kafkaProduce.sendMessage('UPDATE', userUpdate);
+      console.log("update success");
+      // const updatedUser = await userRepo.updateUser(id, userUpdate);
     } catch (err) {
       throw new Error(err.message);
     }
@@ -90,7 +93,9 @@ const userRepo = new UserRepository(userModel.userSchema);
    */
   const deleteUser = async (id) => {
     try {
-      return await Use.deleteById(id);
+      producer.kafkaProduce.sendMessage('DELETE', {userId: id});
+      console.log('delete success')
+      // return await Use.deleteById(id);
     } catch (err) {
       throw new Error(err.message);
     }
