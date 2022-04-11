@@ -2,15 +2,11 @@ const {Kafka} = require('kafkajs');
 require("dotenv").config();
 
 const client = new Kafka({
-    clientId: 'test-produce',
-    brokers: ['localhost:9092'],
+    clientId: process.env.KAFKA_CLIENT_ID,
+    brokers: [process.env.KAFKA_BROKERS],
 })
 
 const producer = client.producer()
-
-const run = async() =>{
-    await producer.connect()
-}
 
 // const run = async() => {
 //     await producer.connect()
@@ -28,7 +24,7 @@ const run = async() =>{
 
 const kafkaProduce = {
     sendMessage: async (topic,data) =>{
-        run()
+        await producer.connect();
         const event = {
             timestamp: Date.now(),
             data,

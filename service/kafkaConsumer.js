@@ -7,16 +7,15 @@ const Connection = require('../connector/connection.js');
 require("dotenv").config();
 const userRepo = new UserRepository(userModel.userSchema);
 
-Connection.connectMongoose();
-
 const client = new Kafka({
-    clientId: 'test-producer',
+    clientId: process.env.KAFKA_CLIENT_ID,
     brokers: ['localhost:9092'],
 });
 
 const consumer = client.consumer({ groupId: 'test-group' });
 
 const KafkaConsume = async(consumer) =>{
+    Connection.connectMongoose()
     await consumer.run({
         eachMessage: async ({ topic, message }) => {
             try{
