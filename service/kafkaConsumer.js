@@ -4,6 +4,7 @@ const UserRepository = require('../repository/repository.js');
 const producer = require('./kafkaProducer.js');
 const userModel = require('../models/userModel.js');
 const Connection = require('../connector/connection.js');
+const mongoose = require('mongoose');
 require("dotenv").config();
 const userRepo = new UserRepository(userModel.userSchema);
 
@@ -21,24 +22,16 @@ const KafkaConsume = async(consumer) =>{
             try{
                 const mes = JSON.parse(message.value.toString());
                     if (topic == 'INSERT') {
-                        const isExist = await userRepo.exists({
-                            username: mes.data.username,
-                        });
-                        if (isExist) throw new Error('Username already exist');
-                            await userRepo.create(mes.data);
-                            console.log('data inserted consumed');
+                        await userRepo.create(mes.data);
+                        console.log('data inserted consumed');
                     }
                     if (topic == 'UPDATE') {
-                        const isExist = await userRepo.exists({ _id: mes.data.userId });
-                        if (!isExist) throw new Error('User Not Found!');
-                            await userRepo.findByIdAndUpdate(mes.data.userId, mes.data.user);
-                            console.log('data update consumed');
+                        await userRepo.findByIdAndUpdate(mes.data.userId, mes.data.user);
+                        console.log('data update consumed');
                     }
                     if (topic == 'DELETE') {
-                        const isExist = await userRepo.exists({ _id: mes.data.userId });
-                        if (!isExist) throw new Error('User Not Found!');
-                            await userRepo.deleteOne({ _id: mes.data.userId });
-                            console.log('data delete consumed');
+                        await userRepo.deleteOne({ _id: mes.data.userId });
+                        console.log('data delete consumed');
                     }
             }catch (err){
                 throw new Error(err.message);
