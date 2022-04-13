@@ -72,6 +72,7 @@ const userRepo = new UserRepository(userModel.userSchema);
       const hashedPassword = await utils.hashPassword(user.password);
 
       const userUpdate = {
+        _id: id,
 	    	name : user.name,
 		    username : user.username,
 		    password : hashedPassword,

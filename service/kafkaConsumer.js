@@ -26,15 +26,15 @@ const KafkaConsume = async(consumer) =>{
                         console.log('data inserted consumed');
                     }
                     if (topic == 'UPDATE') {
-                        await userRepo.findByIdAndUpdate(mes.data.userId, mes.data.user);
+                        await userRepo.updateUser(mes.data._id, mes.data);
                         console.log('data update consumed');
                     }
                     if (topic == 'DELETE') {
-                        await userRepo.deleteOne({ _id: mes.data.userId });
+                        await userRepo.deleteById(mes.data.userId);
                         console.log('data delete consumed');
                     }
             }catch (err){
-                throw new Error(err.message);
+                // throw new Error(err.message);
             }
         },
     })
