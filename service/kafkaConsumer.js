@@ -10,7 +10,7 @@ const userRepo = new UserRepository(userModel.userSchema);
 
 const client = new Kafka({
     clientId: process.env.KAFKA_CLIENT_ID,
-    brokers: ['localhost:9092'],
+    brokers: [process.env.KAFKA_BROKERS],
 });
 
 const consumer = client.consumer({ groupId: 'test-group' });
