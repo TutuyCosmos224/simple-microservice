@@ -16,7 +16,9 @@ module.exports = class UserRepository {
    */
   async create(object) {
     const isExist = await this.model.exists({ username: object.username });
-    if (isExist) throw new Error('Username already exist');
+    if (isExist) {
+      throw new Error('Username already exist');
+    }
     return this.model.create(object);
   }
 
