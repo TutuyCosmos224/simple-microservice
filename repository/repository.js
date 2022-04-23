@@ -12,7 +12,7 @@ module.exports = class UserRepository {
   /**
    *
    * @param {Object} object user data
-   * @returns {Obejct} new user data
+   * @returns {Object} new user data
    */
   async create(object) {
     const isExist = await this.model.exists({ username: object.username });
