@@ -18,36 +18,11 @@ app.use('/api/', Routes.Routes());
 
 const graphqlSchema = buildSchema(typeDefs);
 
-const root = {
-  addUser : ({ userInput }) => {
-    const result = userService.createUser(userInput);
-    return result;
-  },
-  
-  users : () => {
-    console.log("get user");
-    return userService.getAllUsers();
-  },
-  
-  user : ({ id }) => {
-    console.log("get user");
-    return userService.getUserById(id);
-  },
-  
-  updateUser : ({ id, userInput }) => {
-    return userService.updateUser(id, userInput);
-  },
-  
-  deleteUser : ({ id }) => {
-    return userService.deleteUser(id);
-  },
-}
-
 app.use(
     '/graphql',
     graphqlHTTP({
       schema: graphqlSchema,
-      root: root,
+      root: graphqlResolver,
       graphiql: true,
     }),
   );
