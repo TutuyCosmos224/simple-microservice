@@ -1,8 +1,8 @@
 const { buildSchema } = require('graphql');
 
-const schema = buildSchema(`
+exports.typeDefs = `
 type User {
-  _id: ID!
+  _id: String!
   name: String!
   username: String!
   password: String!
@@ -20,18 +20,16 @@ input UserInputData {
   gender: String!
 }
 type RootQuery {
-  user(id:ID!): User!
+  user(id:String!): User!
   users: [User!]!
 }
 type RootMutation {
   addUser(userInput: UserInputData!): User!
-  updateUser(id: ID!, userInput: UserInputData!): User!
-  deleteUser(id: ID!): User!
+  updateUser(id: String!, userInput: UserInputData!): User!
+  deleteUser(id: String!): User!
 }
 schema {
   query: RootQuery
   mutation: RootMutation
 }
-`);
-
-module.exports = { schema };
+`;

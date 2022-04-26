@@ -28,6 +28,7 @@ module.exports = class UserRepository {
    */
   async getAll() {
     const users = await this.model.find();
+    console.log(users);
     return users;
   }
 
