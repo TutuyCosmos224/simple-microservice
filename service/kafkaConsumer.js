@@ -9,8 +9,8 @@ require("dotenv").config();
 const userRepo = new UserRepository(userModel.userSchema);
 
 const client = new Kafka({
-    clientId: process.env.KAFKA_CLIENT_ID,
-    brokers: [process.env.KAFKA_BROKERS],
+    clientId: 'test-producer',
+    brokers: ['localhost:9092'],
 });
 
 const consumer = client.consumer({ groupId: 'test-group' });
@@ -34,7 +34,7 @@ const KafkaConsume = async(consumer) =>{
                         console.log('data delete consumed');
                     }
             }catch (err){
-                throw new Error(err.message);
+                // throw new Error(err.message);
             }
         },
     })

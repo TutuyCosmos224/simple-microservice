@@ -19,17 +19,13 @@ input UserInputData {
   address: String!
   gender: String!
 }
-type RootQuery {
+type Query {
   user(id:String!): User!
   users: [User!]!
 }
-type RootMutation {
+type Mutation {
   addUser(userInput: UserInputData!): User!
   updateUser(id: String!, userInput: UserInputData!): User!
   deleteUser(id: String!): User!
-}
-schema {
-  query: RootQuery
-  mutation: RootMutation
 }
 `;
