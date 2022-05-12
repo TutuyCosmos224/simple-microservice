@@ -9,8 +9,8 @@ require("dotenv").config();
 const userRepo = new UserRepository(userModel.userSchema);
 
 const client = new Kafka({
-    clientId: 'test-producer',
-    brokers: ['localhost:9092'],
+    clientId: process.env.KAFKA_CLIENT_ID,
+    brokers: [process.env.KAFKA_BROKERS],
 });
 
 const consumer = client.consumer({ groupId: 'test-group' });
